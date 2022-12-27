@@ -1,4 +1,9 @@
-# finding ZeroMq 
+cmake_minimum_required(VERSION 3.6)
+project(rpi_comunication)
+find_package(PkgConfig REQUIRED)
+
+# finding ZeroMq
+pkg_check_modules(PC_ZeroMQ QUIET zmq)
 find_path(ZeroMQ_INCLUDE_DIR
         NAMES zmq.hpp
         PATHS ${PC_ZeroMQ_INCLUDE_DIRS}

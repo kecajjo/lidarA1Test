@@ -25,13 +25,16 @@ USER root
         git submodule update --init --recursive && \ 
         ./autogen.sh && \
         ./configure && \
-        make -j4 && \
+        make -j15 && \
         make install && \
         ldconfig
     RUN git clone https://github.com/Slamtec/rplidar_sdk.git && \
 	cd rplidar_sdk/sdk && \
-	make -j4
-
+	make -j15 && \
+    ln -s /rplidar_sdk/sdk/include/ /usr/include/rplidar_sdk && \
+    ln -s /rplidar_sdk/sdk/src/hal/ /usr/include/rplidar_sdk/hal && \
+    ln -s /rplidar_sdk/output/Linux/Release/ /usr/lib/rplidar_sdk
+    
 USER developer
     RUN mkdir -p /home/developer/src
     WORKDIR /home/developer/src
