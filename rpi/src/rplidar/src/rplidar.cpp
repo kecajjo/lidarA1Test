@@ -13,8 +13,11 @@ Rplidar::Rplidar(const std::string port)
   }
 }
 
-Rplidar::Scan Rplidar::getScan(const int minQuality) {
+void Rplidar::startScan(){
   lidar->startScan(false, true);
+}
+
+Rplidar::Scan Rplidar::getScanData(const int minQuality) {
   sl_lidar_response_measurement_node_hq_t nodes[8192];
   size_t nodeCount =
       sizeof(nodes) / sizeof(sl_lidar_response_measurement_node_hq_t);
@@ -38,4 +41,3 @@ Rplidar::Scan Rplidar::getScan(const int minQuality) {
 }
 
 } // namespace Rplidar
-int main() { Rplidar::Rplidar("a"); }

@@ -29,7 +29,9 @@ USER root
         make install && \
         ldconfig
     RUN git clone https://github.com/Slamtec/rplidar_sdk.git && \
-	cd rplidar_sdk/sdk && \
+    cd rplidar_sdk && \
+    git checkout babe753f39f16f4c6a6dec2c33b4ed541ca0e502 && \
+	cd sdk && \
 	make -j15 && \
     ln -s /rplidar_sdk/sdk/include/ /usr/include/rplidar_sdk && \
     ln -s /rplidar_sdk/sdk/src/hal/ /usr/include/rplidar_sdk/hal && \

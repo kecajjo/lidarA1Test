@@ -31,7 +31,8 @@ public:
     delete *channel;
   }
 
-  Scan getScan(const int minQuality = 0);
+  void startScan();
+  Scan getScanData(const int minQuality = 0);
 
 private:
   sl::Result<sl::ISerialPortChannel *> channel;
