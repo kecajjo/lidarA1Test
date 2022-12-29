@@ -1,6 +1,6 @@
 #!/bin/bash
 scriptDir=$(dirname $0 | xargs -i readlink -f {})
-container_name="lidar/rpi"
+container_name="jacekmultan/lidar_rpi"
 version="0.3"
 does_exist=$(docker image ls $container_name:$version | grep -ci1 $container_name)
 if [ $does_exist == "0" ] ; then
