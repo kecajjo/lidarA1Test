@@ -1,12 +1,14 @@
 #include "rplidar.hpp"
 
+#include <iostream>
+
 namespace Rplidar {
 
 Rplidar::Rplidar(const std::string port)
-    : channel(sl::createSerialPortChannel("/dev/ttyUSB0", 115200)) {
+    : channel(sl::createSerialPortChannel(port, 115200)) {
   lidar = *sl::createLidarDriver();
   auto res = lidar->connect(*channel);
-  if (!SL_IS_OK(res)) {
+  if (IS_FAIL(res)) {
     delete lidar;
     delete *channel;
     throw std::runtime_error("Failed to connect LIDAR");
@@ -28,12 +30,12 @@ Rplidar::Scan Rplidar::getScanData(const int minQuality) {
   }
   lidar->ascendScanData(nodes, nodeCount);
   std::vector<Rplidar::SingleData> scanVec;
-  for (const auto& node : nodes) {
-    if (node.quality >= minQuality) {
-      float angleDeg = node.angle_z_q14 * 90.f / (1 << 14);
-      float distanceMm = node.dist_mm_q2 / 4;
+  for (int i=0; i<nodeCount; i++) {
+    if (nodes[i].quality >= minQuality) {
+      float angleDeg = nodes[i].angle_z_q14 * 90.f / (1 << 14);
+      float distanceMm = nodes[i].dist_mm_q2 / 4;
       scanVec.push_back(
-          Rplidar::SingleData(angleDeg, distanceMm, node.quality));
+          Rplidar::SingleData(angleDeg, distanceMm, nodes[i].quality));
     }
   }
 

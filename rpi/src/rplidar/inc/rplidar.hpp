@@ -35,7 +35,7 @@ public:
   Scan getScanData(const int minQuality = 0);
 
 private:
-  sl::Result<sl::ISerialPortChannel *> channel;
+  sl::Result<sl::IChannel *> channel;
   sl::ILidarDriver *lidar;
 };
 } // namespace Rplidar
