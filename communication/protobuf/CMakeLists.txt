@@ -1,30 +1,21 @@
 # generate files from proto
-SET(PROTO_FILES
-        LaserScan
-        TestMsg
-)
-SET(PROTO_INPUT_PATH
-        ${CMAKE_CURRENT_SOURCE_DIR}
-)
-SET(PROTO_OUTPUT_PATH
-        ${CMAKE_CURRENT_SOURCE_DIR}
-)
-FOREACH(proto IN LISTS PROTO_FILES)
-        EXECUTE_PROCESS(COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} -I${CMAKE_CURRENT_SOURCE_DIR} --cpp_out=${PROTO_OUTPUT_PATH} "${PROTO_INPUT_PATH}/${proto}.proto")
-ENDFOREACH(proto)
+find_package(Protobuf REQUIRED)
 
-SET(LIB_PROTO_FILES
-        ${PROTO_FILES}
-)
+set(PROTO_FILES LaserScan TestMsg)
+set(PROTO_INPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+set(PROTO_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+foreach(proto IN LISTS PROTO_FILES)
+  execute_process(
+    COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} -I${CMAKE_CURRENT_SOURCE_DIR}
+            --cpp_out=${PROTO_OUTPUT_PATH} "${PROTO_INPUT_PATH}/${proto}.proto")
+endforeach(proto)
 
-LIST(TRANSFORM LIB_PROTO_FILES PREPEND ${PROTO_OUTPUT_PATH})
-LIST(TRANSFORM LIB_PROTO_FILES APPEND ".pb.cc")
+set(LIB_PROTO_FILES ${PROTO_FILES})
 
+list(TRANSFORM LIB_PROTO_FILES APPEND ".pb.cc")
 
-add_library(protoMessages
-        ${PROTO_OUTPUT_PATH}/${PROTO_FILES}.pb.cc
-)
+add_library(protoMessages ${LIB_PROTO_FILES})
 
-target_include_directories(protoMessages PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
-)
+target_include_directories(protoMessages PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(protoMessages PUBLIC ${Protobuf_LIBRARIES})

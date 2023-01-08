@@ -10,10 +10,10 @@ int main (void)
     zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, "B", 1);
 
     while (1) {
-        std::string contents = zmq_helper::receive(subscriber)
-        MySuperStruct superStruct;
+        std::string contents = zmq_helper::receive(subscriber);
+        TestMsg superStruct;
         superStruct.ParseFromString(contents);
-        printf ("%d %i %u\n", superStruct.d(), superStruct.i(), superStruct.u());
+        printf ("%lf %d %u\n", superStruct.d(), superStruct.i(), superStruct.u());
     }
     //  We never get here, but clean up anyhow
     zmq_close (subscriber);
