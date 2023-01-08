@@ -13,5 +13,5 @@ docker run --rm \
     -v $HOME/.Xauthority:/root/.Xauthority \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v "$scriptDir/src:/home/developer/src" \
-    -v "$scriptDir/../protobuf:/home/developer/src/protobuf" \
+    -v "$scriptDir/../communication:/home/developer/src/communication" \
     -it $container_name:$version /bin/bash

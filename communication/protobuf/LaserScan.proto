@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message LaserScan{
+  message LaserRay {
+    double angleDeg = 1;
+    double rangeMm = 2;
+    int quality = 3;
+  }
+  uint32 size = 1;
+  repeated LaserRay rays = 2;
+}

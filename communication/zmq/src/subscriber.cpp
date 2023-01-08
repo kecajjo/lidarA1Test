@@ -1,5 +1,5 @@
-#include "zhelpers.h"
-#include "pc2d.pb.h"
+#include "zmqHelper.hpp"
+#include "TestMsg.pb.h"
 
 int main (void)
 {
@@ -10,15 +10,10 @@ int main (void)
     zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, "B", 1);
 
     while (1) {
-        //  Read envelope with address
-        char *address = s_recv (subscriber);
-        //  Read message contents
-        char *contents = s_recv (subscriber);
+        std::string contents = zmq_helper::receive(subscriber)
         MySuperStruct superStruct;
         superStruct.ParseFromString(contents);
-        printf ("[%s] %s %d %f\n", address, superStruct.superstring().c_str(), superStruct.superint(), superStruct.superfloat());
-        free (address);
-        free (contents);
+        printf ("%d %i %u\n", superStruct.d(), superStruct.i(), superStruct.u());
     }
     //  We never get here, but clean up anyhow
     zmq_close (subscriber);

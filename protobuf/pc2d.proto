@@ -1,7 +1,0 @@
-syntax = "proto3";
-
-message MySuperStruct {
-  string superString = 1;
-  int32 superInt = 2;
-  float superFloat = 3;
-}

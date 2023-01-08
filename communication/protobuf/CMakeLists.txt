@@ -1,6 +1,7 @@
 # generate files from proto
 SET(PROTO_FILES
-        pc2d
+        LaserScan
+        TestMsg
 )
 SET(PROTO_INPUT_PATH
         ${CMAKE_CURRENT_SOURCE_DIR}
