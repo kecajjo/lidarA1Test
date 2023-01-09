@@ -1,22 +1,16 @@
-#include "zmqHelper.hpp"
+#include "subscriber.hpp"
 #include "TestMsg.pb.h"
+
+void callback(std::unique_ptr<TestMsg> msg){
+    printf ("%lf %d %u\n", msg->d(), msg->i(), msg->u());
+}
 
 int main (void)
 {
-    //  Prepare our context and subscriber
-    void *context = zmq_ctx_new ();
-    void *subscriber = zmq_socket (context, ZMQ_SUB);
-    zmq_connect (subscriber, "tcp://localhost:5563");
-    zmq_setsockopt (subscriber, ZMQ_SUBSCRIBE, "B", 1);
 
-    while (1) {
-        std::string contents = zmq_helper::receive(subscriber);
-        TestMsg superStruct;
-        superStruct.ParseFromString(contents);
-        printf ("%lf %d %u\n", superStruct.d(), superStruct.i(), superStruct.u());
+    auto sub = zmq_helper::Subscriber<TestMsg>("ipc:///tmp/0", "B", callback);
+    while(1){
+        ;
     }
-    //  We never get here, but clean up anyhow
-    zmq_close (subscriber);
-    zmq_ctx_destroy (context);
     return 0;
 }

@@ -14,13 +14,13 @@ int socketSendmore(void *socket, const char *string) {
   return size;
 }
 
-std::string socketRecv(void *socket, uint buffSize = 256) {
+std::optional<std::string> socketRecv(void *socket, uint buffSize = 256) {
   char *buffer = new char[buffSize];
   int size = zmq_recv(socket, buffer, buffSize - 1, 0);
   if (size == -1)
-    return NULL;
+    return std::nullopt;
   buffer[size < buffSize ? size : buffSize - 1] = '\0';
-  std::string retStr(buffer);
+  std::optional<std::string> retStr(buffer);
   delete[] buffer;
   return retStr;
 }
@@ -32,11 +32,14 @@ void send(void *socket, const std::string str, const std::string topic) {
   socketSend(socket, str.c_str());
 }
 
-std::string receive(void *socket) {
+std::optional<std::string> receive(void *socket) {
   //  Read envelope with address
-  socketRecv(socket);
-  //  Read message contents
-  std::string dataSize = socketRecv(socket);
-  return socketRecv(socket, std::stoi(dataSize));
+  if (!socketRecv(socket)){
+    return std::nullopt;
+  }
+  auto dataSize = socketRecv(socket);
+  if (!dataSize)
+    return std::nullopt;
+  return socketRecv(socket, std::stoi(dataSize.value()));
 }
 } // namespace zmq_helper
