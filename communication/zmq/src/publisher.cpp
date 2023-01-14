@@ -8,7 +8,7 @@ int main (void)
     superStruct.set_d(14.643);
     superStruct.set_u(124);
     superStruct.set_i(-142);
-    auto aPub = zmq_helper::Publisher<TestMsg>("ipc:///tmp/0");
+    auto aPub = zmq_helper::Publisher<TestMsg>("tcp://*:5555");
     TestMsg superStructChanged;
     superStructChanged.set_d(-14.643);
     superStructChanged.set_u(4);

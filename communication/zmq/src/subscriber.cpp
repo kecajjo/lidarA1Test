@@ -8,7 +8,7 @@ void callback(std::unique_ptr<TestMsg> msg){
 int main (void)
 {
 
-    auto sub = zmq_helper::Subscriber<TestMsg>("ipc:///tmp/0", "B", callback);
+    auto sub = zmq_helper::Subscriber<TestMsg>("tcp://192.168.0.152:5555", "B", callback);
     while(1){
         ;
     }
