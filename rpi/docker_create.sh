@@ -10,6 +10,7 @@ docker run --rm \
     --privileged \
     --name "lidar_rpi" \
     --env DISPLAY \
+    --network host \
     -v $HOME/.Xauthority:/root/.Xauthority \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v "$scriptDir/src:/home/developer/src" \
