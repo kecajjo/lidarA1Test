@@ -1,11 +1,12 @@
-#include "rplidar.hpp"
-#include <iostream>
 #include <string>
-#include <unistd.h>
-#include "publisher.hpp"
+#include "subscriber.hpp"
 #include "LaserScan.pb.h"
 
-#define PUBLISHED_TOPIC "LaserScan"
+#define SCAN_TOPIC "LaserScan"
+
+void callback(std::unique_ptr<LaserScan> scan){
+
+}
 
 int main(int argc, char **argv) {
   std::string portName = "/dev/ttyUSB0";
@@ -13,7 +14,7 @@ int main(int argc, char **argv) {
     portName = argv[1];
   }
   Rplidar::Rplidar lidar(portName);
-  auto pub = zmq_helper::Publisher<LaserScan>("tcp://*:5555");
+  auto pub = zmq_helper::Subscriber<LaserScan>("tcp://*:5555", SCAN_TOPIC, callback);
 
   lidar.startScan();
   sleep(1);

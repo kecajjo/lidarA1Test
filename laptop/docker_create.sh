@@ -1,7 +1,7 @@
 #!/bin/bash
 scriptDir=$(dirname $0 | xargs -i readlink -f {})
-container_name="rob_env/lab3"
-version="0.4"
+container_name="jacekmultan/lidar_laptop"
+version="0.1"
 does_exist=$(docker image ls $container_name:$version | grep -ci1 $container_name)
 if [ $does_exist == "0" ] ; then
 	docker build -t $container_name:$version .
@@ -10,7 +10,9 @@ docker run --rm \
     --privileged \
     --name "lidar_laptop" \
     --env DISPLAY \
+    --network host \
     -v $HOME/.Xauthority:/root/.Xauthority \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v "$scriptDir/..:/home/developer/src" \
+    -v "$scriptDir/src:/home/developer/src" \
+    -v "$scriptDir/../communication:/home/developer/src/communication" \
     -it $container_name:$version /bin/bash

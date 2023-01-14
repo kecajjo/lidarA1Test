@@ -15,6 +15,9 @@ find_library(
   NAMES zmq
   PATHS ${PC_ZeroMQ_LIBRARY_DIRS})
 
+add_library(communication src/dummy.cpp)
+target_link_libraries(communication PUBLIC protoMessages zmqHelper ${ZeroMQ_LIBRARY})
+target_include_directories(communication PUBLIC inc/)
 # ##############################################################################
 add_executable(zmq_publisher src/publisher.cpp)
 # add the include directory to our compile directives

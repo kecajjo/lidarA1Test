@@ -2,8 +2,8 @@ syntax = "proto3";
 
 message LaserScan{
   message LaserRay {
-    double angleDeg = 1;
-    double rangeMm = 2;
+    double angle_deg = 1;
+    double range_mm = 2;
     int32 quality = 3;
   }
   uint32 size = 1;

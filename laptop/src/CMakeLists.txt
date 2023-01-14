@@ -1,18 +1,7 @@
-# finding ZeroMq 
-find_path(ZeroMQ_INCLUDE_DIR
-        NAMES zmq.hpp
-        PATHS ${PC_ZeroMQ_INCLUDE_DIRS}
-        )
+cmake_minimum_required(VERSION 3.6)
+project(laptop_lidar)
 
-find_library(ZeroMQ_LIBRARY
-        NAMES zmq
-        PATHS ${PC_ZeroMQ_LIBRARY_DIRS}
-        )
+set(CMAKE_CXX_STANDARD 20)
 
-#################################################
-add_executable(laptop
- src/subscriber.cpp )
-## add the include directory to our compile directives
-target_include_directories(laptop PUBLIC inc/ ${ZeroMQ_INCLUDE_DIR})
-## at the 0mq library to our link directive
-target_link_libraries(laptop PUBLIC protoMessages ${ZeroMQ_LIBRARY} ${Protobuf_LIBRARIES})
+add_executable(laptop_lidar src/main.cpp)
+target_link_libraries(laptop_lidar PUBLIC communication)
