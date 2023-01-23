@@ -1,6 +1,5 @@
 #include "zmqHelper.hpp"
 #include <cstring>
-#include <iostream>
 
 namespace zmq_helper {
 namespace {
@@ -32,7 +31,6 @@ std::optional<std::string> socketRecv(void *socket, uint buffSize) {
     return std::nullopt;
   buffer[size < buffSize+1 ? size : buffSize] = '\0';
   std::optional<std::string> retStr(std::string(buffer, buffSize));
-  std::cout << "size: " << retStr.value().size() << std::endl;
   delete[] buffer;
   return retStr;
 }

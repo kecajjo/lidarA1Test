@@ -18,7 +18,6 @@ int main(void) {
     auto *ray = superStructChanged.add_i();
     ray->set_i(i);
   }
-  std::cout << superStructChanged.i(2).i() <<std::endl;
 
   while (1) {
     //  Write two messages, each with an envelope and content

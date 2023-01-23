@@ -33,10 +33,12 @@ ProtoToRos::protoMsgToRosMsg(std::unique_ptr<LaserScan> scan) {
                          size;
   msg.range_min = 0.1;
   msg.range_max = 3;
-  std::cout << size << std::endl;
-  std::cout << msg.angle_min << std::endl;
-  std::cout << msg.angle_max << std::endl;
-  std::cout << msg.angle_increment << std::endl;
+  for(int i=0; i<size;i++){
+    if(scan->rays(i).quality() <= 0)
+      msg.ranges.push_back(NAN);
+    else
+      msg.ranges.push_back(scan->rays(i).range_mm()/1000);
+  }
 
   return msg;
 }
