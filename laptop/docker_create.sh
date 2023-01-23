@@ -1,7 +1,7 @@
 #!/bin/bash
 scriptDir=$(dirname $0 | xargs -i readlink -f {})
 container_name="jacekmultan/lidar_laptop"
-version="0.4"
+version="0.5"
 does_exist=$(docker image ls $container_name:$version | grep -ci1 $container_name)
 if [ $does_exist == "0" ] ; then
 	docker build -t $container_name:$version $scriptDir

@@ -1,0 +1,6 @@
+<launch>
+<node name="lidar_publisher" pkg="protobuf_to_ros" type="protobuf_to_ros"/>
+
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(find protobuf_to_ros)/config/laser_scan.rviz"/>
+
+</launch>

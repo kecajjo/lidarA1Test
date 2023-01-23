@@ -42,6 +42,10 @@ USER root
         make -j4 && \
         make install && \
         ldconfig
+    RUN apt-get update && apt-get install -y \
+        rviz \
+        ros-noetic-rviz && \
+        rm -rf /var/lib/apt/lists/*
 
 USER developer
     RUN mkdir -p /home/developer/src
