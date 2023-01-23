@@ -1,7 +1,10 @@
 syntax = "proto3";
 
 message TestMsg{
-  uint32 u = 1;
+  message cos {
+    int32 i = 1;
+  }
+  uint32 u = 3;
   double d = 2;
-  int32 i = 3;
+  repeated cos i = 1;
 }

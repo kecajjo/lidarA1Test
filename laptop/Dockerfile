@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ros:noetic-ros-base
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN ln -snf /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && echo Europe/Warsaw > /etc/timezone
@@ -24,6 +24,13 @@ USER root
         --slave /usr/bin/g++ g++ /usr/bin/g++-10 \
         --slave /usr/bin/gcov gcov /usr/bin/gcov-10
     RUN apt-get update && apt-get install -y \
+        clang-format \
+        flake8 \
+        vim \
+        python3-catkin-tools \
+        python3-osrf-pycommon && \
+        rm -rf /var/lib/apt/lists/*
+    RUN apt-get update && apt-get install -y \
         libzmq3-dev \
         sudo && \
         rm -rf /var/lib/apt/lists/*
@@ -38,6 +45,7 @@ USER root
 
 USER developer
     RUN mkdir -p /home/developer/src
-    WORKDIR /home/developer/src
+    RUN echo "source /opt/ros/noetic/setup.bash" >> /home/developer/.bashrc
+    WORKDIR /home/developer
 
 ENTRYPOINT ["/bin/bash", "-c"]
